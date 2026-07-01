@@ -8,7 +8,7 @@
 
 ## 🧑‍💻 ข้อมูลผู้พัฒนา (Developer Information)
 
-* **ผู้พัฒนา:** อิทธิพล จันโนนแสง (Ittiphon Channonsaeng)
+* **ผู้พัฒนา:** อิทธิพล จันโนนแซง (Ittiphon Channonsaeng)
 * **หลักสูตร:** Front-end Web Programming
 * **สาขาวิชา:** วิทยาการคอมพิวเตอร์และเทคโนโลยีสารสนเทศ (Computer Science and Information Technology - CS)
 * **สถาบัน:** มหาวิทยาลัยขอนแก่น (Khon Kaen University)
