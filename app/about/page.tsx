@@ -46,7 +46,7 @@ export default function AboutPage() {
               mt: 2,
             }}
           >
-            About This Project
+            About this project
           </Typography>
         </Box>
 
@@ -59,9 +59,8 @@ export default function AboutPage() {
             color="error"
             gutterBottom
           >
-            Developer
+            ผู้พัฒนา
           </Typography>
-
           <Typography sx={{ mb: 3 }}>
             อิทธิพล จันโนนแซง
           </Typography>
@@ -71,9 +70,19 @@ export default function AboutPage() {
             color="error"
             gutterBottom
           >
-            Course
+            รหัสนักศึกษา
+          </Typography>
+          <Typography sx={{ mb: 3 }}>
+            673450043-7
           </Typography>
 
+          <Typography
+            variant="h6"
+            color="error"
+            gutterBottom
+          >
+            รายวิชา
+          </Typography>
           <Typography sx={{ mb: 3 }}>
             Front-end Web Programming
           </Typography>
@@ -83,11 +92,10 @@ export default function AboutPage() {
             color="error"
             gutterBottom
           >
-            Program
+            สาขาวิชา
           </Typography>
-
           <Typography sx={{ mb: 3 }}>
-            Computer Science and Information Technology (CS)
+            วิทยาการคอมพิวเตอร์และสารสนเทศ 
           </Typography>
 
           <Typography
@@ -95,9 +103,8 @@ export default function AboutPage() {
             color="error"
             gutterBottom
           >
-            University
+            มหาวิทยาลัย
           </Typography>
-
           <Typography sx={{ mb: 3 }}>
             มหาวิทยาลัยขอนแก่น
           </Typography>
@@ -107,9 +114,8 @@ export default function AboutPage() {
             color="error"
             gutterBottom
           >
-            GitHub Source Code
+            GitHub Source code
           </Typography>
-
           <Link
             href="https://github.com/Ittiphon2005/pokemon-app"
             target="_blank"
