@@ -1,65 +1,176 @@
-import Image from "next/image";
+"use client";
+
+import { useState, useEffect } from "react";
+import {
+  Typography,
+  Container,
+  Card,
+  CardContent,
+  Avatar,
+  Grid,
+  CardActionArea,
+  Button,
+  Skeleton,
+  Box,
+} from "@mui/material";
+
+interface PokemonResponse {
+  count: number;
+  next: string;
+  previous: string | null;
+  results: { name: string; url: string }[];
+}
 
 export default function Home() {
+  const [pokemonList, setPokemonList] = useState<
+    { name: string; url: string }[]
+  >([]);
+
+  const [offset, setOffset] = useState(0);
+  const [loading, setLoading] = useState(false);
+
+  const limit = 20;
+
+  useEffect(() => {
+    setLoading(true);
+
+    fetch(
+      `https://pokeapi.co/api/v2/pokemon?limit=${limit}&offset=${offset}`
+    )
+      .then((response) => response.json())
+      .then((data: PokemonResponse) => {
+        setPokemonList((prev) => [...prev, ...data.results]);
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+      })
+      .finally(() => {
+        setLoading(false);
+      });
+  }, [offset]);
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <Container maxWidth="lg" sx={{ py: 5 }}>
+      <Typography
+        variant="h3"
+        align="center"
+        sx={{
+          fontWeight: "bold",
+          color: "#d32f2f",
+          mb: 5,
+          textShadow: "2px 2px 6px rgba(0,0,0,0.2)",
+        }}
+      >
+        Pokédex
+      </Typography>
+
+      <Grid container spacing={3}>
+        {pokemonList.map((pokemon) => {
+          const pokemonId = pokemon.url.split("/")[6];
+
+          return (
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={pokemon.name}>
+              <Card
+                sx={{
+                  borderRadius: 4,
+                  boxShadow: 4,
+                  transition: "0.3s",
+                  "&:hover": {
+                    transform: "translateY(-8px)",
+                    boxShadow: 10,
+                    backgroundColor: "#fffde7",
+                  },
+                }}
+              >
+                <CardActionArea href={`/pokemon/${pokemon.name}`}>
+                  <CardContent
+                    sx={{
+                      textAlign: "center",
+                      py: 3,
+                    }}
+                  >
+                    <Avatar
+                      src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemonId}.png`}
+                      alt={pokemon.name}
+                      sx={{
+                        width: 100,
+                        height: 100,
+                        margin: "auto",
+                        mb: 2,
+                        bgcolor: "#eeeeee",
+                        border: "3px solid #ef5350",
+                      }}
+                    />
+
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        textTransform: "capitalize",
+                        fontWeight: "bold",
+                        color: "#424242",
+                      }}
+                    >
+                      {pokemon.name}
+                    </Typography>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+            </Grid>
+          );
+        })}
+
+        {loading &&
+          [...Array(8)].map((_, index) => (
+            <Grid size={{ xs: 12, sm: 6, md: 4, lg: 3 }} key={index}>
+              <Card
+                sx={{
+                  borderRadius: 4,
+                  boxShadow: 3,
+                }}
+              >
+                <CardContent sx={{ textAlign: "center" }}>
+                  <Skeleton
+                    variant="circular"
+                    width={100}
+                    height={100}
+                    sx={{ margin: "auto" }}
+                  />
+
+                  <Skeleton
+                    variant="text"
+                    sx={{ mt: 2 }}
+                  />
+
+                  <Skeleton variant="text" />
+                </CardContent>
+              </Card>
+            </Grid>
+          ))}
+      </Grid>
+
+      {pokemonList.length < 1351 && (
+        <Box
+          sx={{
+            textAlign: "center",
+            mt: 5,
+          }}
+        >
+          <Button
+            variant="contained"
+            color="warning"
+            size="large"
+            sx={{
+              px: 5,
+              py: 1.5,
+              borderRadius: 5,
+              fontWeight: "bold",
+            }}
+            onClick={() => setOffset((prev) => prev + limit)}
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+            Load More Pokémon
+          </Button>
+        </Box>
+      )}
+    </Container>
   );
 }
