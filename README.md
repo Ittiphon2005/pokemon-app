@@ -38,14 +38,10 @@
 ![Home Screen](screenshots/home_screen.png)
 
 ### 2. หน้าแสดงรายละเอียดโปเกมอน (Pokémon Detail)
-แสดงภาพขยาย, ประเภทธาตุ (Types), และกราฟแท่งแสดงค่าพลังสถิติพื้นฐาน (Stats)
+แสดงสเตตัสพร้อมกราฟพลัง, ปุ่มกดฟังเสียงร้องจริง และแผนผังลำดับร่างพัฒนา
 ![Detail Screen 1](screenshots/detail_screen_1.png)
 
-### 3. ระบบวิวัฒนาการและเสียงร้อง (Evolution & Pokémon Cry)
-ส่วนท้ายของหน้าข้อมูลจะแสดงสายวิวัฒนาการ (Evolution) และเครื่องมือเล่นเสียงร้องจริงของโปเกมอน
-![Detail Screen 2](screenshots/detail_screen_2.png)
-
-### 4. หน้าเกี่ยวกับผู้พัฒนา (About This Project)
+### 3. หน้าเกี่ยวกับผู้พัฒนา (About This Project)
 หน้าเพจแสดงประวัติและรายละเอียดของผู้พัฒนาโปรเจกต์
 ![About Screen](screenshots/about_screen.png)
 
