@@ -157,7 +157,7 @@ export default function HomePage() {
           Pokédex ออนไลน์
         </Typography>
 
-        {/* 🎨 ตกแต่งใหม่: แคปซูลควบคุมแบบมินิมอลโมเดิร์น (หมดปัญหาตัวหนังสือซ้อนทับกัน) */}
+        {/* แคปซูลควบคุมแบบมินิมอลโมเดิร์น */}
         <Paper
           elevation={0}
           sx={{
@@ -167,22 +167,21 @@ export default function HomePage() {
             p: "8px 12px",
             display: "flex",
             alignItems: "center",
-            borderRadius: "50px", // เปลี่ยนเป็นทรงแคปซูลโค้งมนพรีเมียม
+            borderRadius: "50px", 
             backgroundColor: "#ffffff",
             boxShadow: "0px 8px 24px rgba(0, 0, 0, 0.04)",
             border: "1px solid rgba(0, 0, 0, 0.03)",
           }}
         >
-          {/* ส่วนกล่องค้นหาแบบไร้ขอบสี่เหลี่ยมดั้งเดิม */}
           <TextField
             fullWidth
             placeholder="ค้นหาชื่อ หรือเลขไอดีโปเกเด็กซ์..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            variant="standard" // เปลี่ยนเป็น standard เพื่อซ่อนกรอบป้องกันการซ้อนขี่กัน
+            variant="standard" 
             slotProps={{
               input: {
-                disableUnderline: true, // ปิดเส้นใต้
+                disableUnderline: true, 
                 startAdornment: (
                   <InputAdornment position="start">
                     <SearchIcon sx={{ color: "#e33d3d", ml: 1.5, mr: 0.5 }} />
@@ -200,17 +199,15 @@ export default function HomePage() {
             sx={{ px: 1 }}
           />
 
-          {/* เส้นแบ่งกั้นระหว่างช่องค้นหากับตัวเลือกประเภท */}
           <Box sx={{ height: 28, width: "1px", backgroundColor: "rgba(0,0,0,0.1)", mx: 1.5 }} />
 
-          {/* ส่วนเลือกประเภทที่ออกแบบใหม่ ให้คลีนและไม่มีปัญหา text overlap */}
           <FormControl variant="standard" sx={{ minWidth: 180, pr: 1 }}>
             <Select
               value={selectedType}
               onChange={(e) => setSelectedType(e.target.value)}
-              disableUnderline // ลบเส้นใต้ออกเพื่อให้กลมกลืนในแคปซูล
+              disableUnderline 
               displayEmpty
-              IconComponent={FilterListIcon} // เปลี่ยนไอคอนลูกศรเป็นไอคอนฟิลเตอร์เก๋ๆ
+              IconComponent={FilterListIcon} 
               sx={{
                 textTransform: "capitalize",
                 fontWeight: "600",
@@ -241,14 +238,15 @@ export default function HomePage() {
         {loading ? (
           <Grid container spacing={3} sx={{ justifyContent: "center" }}>
             {Array.from(new Array(8)).map((_, index) => (
-              <Grid key={index} sx={{ display: "flex", justifyContent: "center", p: 1.5 }}>
+              // ✅ แก้ไข: ลบพรอพ item ทิ้งไป แล้วใช้ Box ครอบแทนเพื่อให้ได้ลักษณะ flex จัดกึ่งกลางที่เสถียร
+              <Box key={index} sx={{ display: "flex", justifyContent: "center", p: 1.5 }}>
                 <Box sx={{ width: 220, p: 2, bgcolor: "#fff", borderRadius: 5 }}>
                   <Skeleton variant="text" width="40%" sx={{ ml: "auto" }} />
                   <Skeleton variant="rectangular" height={115} sx={{ my: 2, borderRadius: 2 }} />
                   <Skeleton variant="text" width="80%" sx={{ mx: "auto" }} />
                   <Skeleton variant="text" width="60%" sx={{ mx: "auto", mt: 1 }} />
                 </Box>
-              </Grid>
+              </Box>
             ))}
           </Grid>
         ) : (
@@ -256,7 +254,8 @@ export default function HomePage() {
             <Grid container spacing={3} sx={{ justifyContent: "center", alignItems: "stretch" }}>
               {paginatedPokemon.length > 0 ? (
                 paginatedPokemon.map((pokemon) => (
-                  <Grid key={pokemon.name} sx={{ display: "flex", justifyContent: "center", p: 1.5 }}>
+                  // ✅ แก้ไข: เปลี่ยนจาก <Grid item> เป็น <Box> เพื่อเลี่ยง Error 'Received true for a non-boolean attribute item'
+                  <Box key={pokemon.name} sx={{ display: "flex", justifyContent: "center", p: 1.5 }}>
                     <Link href={`/pokemon/${pokemon.name}`} style={{ display: "flex", textDecoration: "none", width: "100%", maxWidth: 220 }}>
                       
                       <Card 
@@ -349,7 +348,7 @@ export default function HomePage() {
                       </Card>
 
                     </Link>
-                  </Grid>
+                  </Box>
                 ))
               ) : (
                 <Box sx={{ width: "100%", py: 8 }}>
@@ -367,11 +366,17 @@ export default function HomePage() {
                   count={totalPages} 
                   page={page} 
                   onChange={(event, value) => setPage(value)} 
-                  color="error" 
                   size="large"
                   sx={{
                     "& .MuiPaginationItem-root": {
                       fontWeight: "bold"
+                    },
+                    "& .MuiPaginationItem-root.Mui-selected": {
+                      backgroundColor: "error.main",
+                      color: "#ffffff",
+                      "&:hover": {
+                        backgroundColor: "error.dark",
+                      }
                     }
                   }}
                 />
